@@ -1,0 +1,10 @@
+<div id="produtos" class="mb-8">
+  <h3 class="text-black mb-2">Produtos</h3>
+  <p class="text-gray-600">Descubra nossa coleção de carrinhos da Hot-Wheels</p>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+  @for (produto of produtos; track produto) {
+  <app-hot-wheels [produto]="produto"> </app-hot-wheels>
+  }
+</div>
