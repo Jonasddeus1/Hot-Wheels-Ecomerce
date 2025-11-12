@@ -1,24 +1,25 @@
-<header class="border-b border-blue-200">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<header class="bg-blue-500 h-[80px] border-1 rounded border-gray-200">
+  <div class="justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <div class="flex-shrink-0">
-        <img [routerLink]="['']" src="./img/hot-wheels.png" class="border-1 rounded-lg h-[70px]">
+        <img [routerLink]="['']" src="./img/hot-wheels.png" class="rounded-lg justify-center h-[80px]">
       </div>
 
       <nav class="flex items-center gap-8">
-        <a [routerLink]="['produtos']" class="text-gray-600 hover:text-black transition-colors">
+        <a [routerLink]="['home']" class="text-black-600 hover:text-gray-300 transition-colors">
           Produtos
+        </a>
+        <a [routerLink]="['produto-form']" class="text-black-600 hover:text-gray-300 transition-colors">
+          Cadastro de produtos
         </a>
         
         <button
-          class="relative text-gray-600 hover:text-black transition-colors"
+          class="relative text-black-600 transition-colors"
           (click)="showCart()"
         >
-          <i class="las la-shopping-cart text-3xl"></i>
+          <i class="las la-shopping-cart text-3xl hover:text-gray-300"></i>
 
-          <span
-            class="absolute -top-1 -right-1 bg-black text-white rounded-full w-4 h-4 flex items-center justify-center text-xs"
-          >
+          <span class="absolute -top-1 -right-1 bg-black text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
             {{ produtoQtd }}
           </span>
           @if(carrinhoActive) {

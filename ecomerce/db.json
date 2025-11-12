@@ -1,0 +1,11 @@
+{
+  "produtos": [
+    {
+      "id": "4",
+      "nome": "Mazda RX-7",
+      "preco": 12.99,
+      "categoria": "Carrinhos",
+      "imagem": "./img/produto/rx7.jpg"
+    }
+  ]
+}

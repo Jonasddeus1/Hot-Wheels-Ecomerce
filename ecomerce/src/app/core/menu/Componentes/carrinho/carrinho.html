@@ -1,5 +1,25 @@
-<div class="carrinho-container">
-    @for (produto of produtos; track produto) {
-        <div>{{ produto.quantity}} {{produto.nome}}</div>
-    }
+<div class="cart-container">
+  @for (produto of produtos; track produto) {
+  <div class="flex gap-4 border-b p-4">
+    <img [src]="produto.imagem" alt="" class="w-[50px]" />
+    <div>
+      <div class="text-lg">{{ produto.nome }}</div>
+      <div class="flex justify-between">
+        <div>
+            {{ produto.quantity }}
+        </div>
+        <div>
+            {{ produto.preco| currency: "BRL" }}
+        </div>
+      </div>
+    </div>
+    <button class="rounded bg-red-500 p-2 text-white cursor-pointer" (click)="removeItem(produto.id)">
+      <i class="las la-trash"></i>
+    </button>
+  </div>
+  } @empty {
+    <div class="text-lg font-bold">
+      Carrinho vazio
+    </div>
+  }
 </div>

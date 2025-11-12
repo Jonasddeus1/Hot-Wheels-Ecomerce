@@ -21,11 +21,11 @@ export class CarrinhoService {
     this.carrinhoItems.next(carrinhoItems);    
   }
 
-  public cartItemsHasChanged() : Observable<Array<ProdutoDoTipoCarrinho>> {
+  public carrinhoItemsHasChanged() : Observable<Array<ProdutoDoTipoCarrinho>> {
     return this.carrinhoItems.asObservable();
   }
 
-  removeItemById(produtoId: number) {
+  removeItemById(produtoId: string) {
     let produtos = this.carrinhoItems.getValue();
     console.log(produtos);    
     produtos = produtos.filter((el) => el.id != produtoId);

@@ -15,12 +15,17 @@ export class Menu {
   protected carrinhoActive: boolean = false;
 
   constructor(private carrinhoService: CarrinhoService) {
-    this.carrinhoService.cartItemsHasChanged().subscribe((produtos: Array<TipoProduto>) => {
+    this.carrinhoService.carrinhoItemsHasChanged().subscribe((produtos: Array<TipoProduto>) => {
       this.produtoQtd = produtos.length;
     })
   }
 
   protected showCart() {
-    this.carrinhoActive = true;
+    if (!this.carrinhoActive){
+      this.carrinhoActive = true;
+    }
+    else {
+      this.carrinhoActive = false;
+    }
   }
 }

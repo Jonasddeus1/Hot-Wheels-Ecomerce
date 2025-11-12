@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Menu } from "./core/menu/menu";
+import { Menu } from './core/menu/menu';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   imports: [Menu, RouterOutlet],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
+  providers: [HttpClient],
 })
-export class App {
 
-  
+export class App {
+  protected readonly title = signal('ecomerce');
 }

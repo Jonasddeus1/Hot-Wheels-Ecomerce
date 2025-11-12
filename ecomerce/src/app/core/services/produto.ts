@@ -1,70 +1,61 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProdutoService {
+  private productsMustBeReloadedSubject: Subject<boolean> = new Subject();
+  private produtosSubject: BehaviorSubject<Array<TipoProduto>> = new BehaviorSubject<
+    Array<TipoProduto>
+  >([]);
 
-  private produtosSubject: BehaviorSubject<Array<TipoProduto>> = new BehaviorSubject<Array<TipoProduto>>([]);
+  constructor(private http: HttpClient, private router: Router) {}
 
-  constructor() {
-    this.produtosSubject.next([
-      {
-        id: 1,
-        nome: 'Nissan Skyline',
-        preco: 12.99,
-        categoria: 'Carrinhos',
-        imagem: './img/produto/skyline.jpg'
-      },
-      {
-        id: 2,
-        nome: 'Toyota Supra',
-        preco: 12.99,
-        categoria: 'Carrinhos',
-        imagem: './img/produto/supra.jpg'
-      },
-      {
-        id: 3,
-        nome: 'Nissan 370 Z',
-        preco: 12.99,
-        categoria: 'Carrinhos',
-        imagem: './img/produto/370z.jpg'
-      },
-      {
-        id: 4,
-        nome: 'Mazda RX-7',
-        preco: 12.99,
-        categoria: 'Carrinhos',
-        imagem: './img/produto/rx7.jpg'
-      },
-      {
-        id: 5,
-        nome: 'Dodge Charge',
-        preco: 12.99,
-        categoria: 'Carrinhos',
-        imagem: './img/produto/charge.jpg'
-      }
-    ])
+  public reloadProductList() {
+    this.productsMustBeReloadedSubject.next(true);
   }
 
-  public getProducts(): Observable<Array<TipoProduto>> {
-    return this.produtosSubject.asObservable();
+  public productsMustBeReloaded(): Observable<boolean> {
+    return this.productsMustBeReloadedSubject.asObservable();
   }
 
-  public getProductById(id: number): any {
-    const produtos = this.produtosSubject.getValue();
-    return produtos.find((item: TipoProduto) => item.id == id);
+  public getProducts(): Observable<any> {
+    return this.http.get('http://localhost:3000/produtos');
   }
 
-    deleteProductById(id: number) {
-    const produtos = this.produtosSubject.getValue().filter((item: TipoProduto) => item.id != id);
-    this.produtosSubject.next(produtos);
+  public getProductById(id: string): any {
+    return this.http.get(`http://localhost:3000/produtos/${id}`);
+  }
+
+  deleteProductById(id: string) {
+    return this.http.delete(`http://localhost:3000/produtos/${id}`);
+  }
+
+  public addProduct(value: Partial<TipoProduto>) {
+    this.getProducts().subscribe((produtos) => {
+      let maxId = 0;
+      produtos.forEach((el: any) => {
+        if (parseInt(el.id) > maxId) {
+          maxId = parseInt(el.id);
+        }
+      });
+      maxId = maxId + 1;
+
+      value.id = `${maxId}`;
+      this.http.post('http://localhost:3000/produtos', value).subscribe(() => {
+        alert('Produto inserido!');
+        this.reloadProductList();
+        this.router.navigate(['/produtos']);
+      });
+    });
   }
 }
 
 export interface TipoProduto {
-  id: number;
+  id: string;
   nome: string;
   preco: number;
   categoria: string;

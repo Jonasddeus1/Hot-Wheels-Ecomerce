@@ -14,12 +14,12 @@ import {
   selector: 'app-detalhes-produto',
   imports: [ReactiveFormsModule],
   templateUrl: './detalhes-produto.html',
-  styleUrl: './detalhes-produto.scss'
+  styleUrl: './detalhes-produto.scss',
 })
 export class DetalhesProduto {
-  private produtoId!: number;
-  protected produto: TipoProduto;
-  protected formGroup: FormGroup; 
+  private produtoId!: string;
+  protected produto!: TipoProduto;
+  protected formGroup: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,8 +27,10 @@ export class DetalhesProduto {
     private carrinhoService: CarrinhoService,
     private formBuilder: FormBuilder
   ) {
-    this.produtoId = parseInt(this.route.snapshot.paramMap.get('id') || '');
-    this.produto = this.produtoService.getProductById(this.produtoId);
+    this.produtoId = this.route.snapshot.paramMap.get('id') || '';
+    this.produtoService.getProductById(this.produtoId).subscribe((result: TipoProduto) => {
+      this.produto = result;
+    });
 
     this.formGroup = this.formBuilder.group({
       quantity: ['1'],
@@ -63,11 +65,11 @@ export class DetalhesProduto {
 
   mais() {
     let qtd = this.formGroup.get('quantity')?.value || 0;
-    this.formGroup.get('quantity')?.setValue(parseInt(qtd)+1);
+    this.formGroup.get('quantity')?.setValue(parseInt(qtd) + 1);
   }
 
   menos() {
     let qtd = this.formGroup.get('quantity')?.value || 0;
-    this.formGroup.get('quantity')?.setValue(Math.max(parseInt(qtd)-1, 0));
+    this.formGroup.get('quantity')?.setValue(Math.max(parseInt(qtd) - 1, 0));
   }
 }

@@ -11,6 +11,6 @@
     <h3 class="text-black">{{ produto.nome }}</h3>
     <p class="text-black">R$ {{ produto.preco }}</p>
   </div>
-  <button class="p-4 rounded cursor-pointer"  [routerLink]="['/produto/:', produto.id]">Detalhes</button>
+  <button class="p-4 rounded cursor-pointer"  [routerLink]="['/produto', produto.id]">Detalhes</button>
   <button class="p-4 bg-red-500 text-white rounded cursor-pointer" (click)="delete()"> Excluir </button>
 </div>
